@@ -23,6 +23,7 @@ import logging
 import math
 import os
 import sys
+from time import sleep
 import time
 from dataclasses import field
 from functools import partial
@@ -51,14 +52,10 @@ from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_ke
 from huggingface_hub import Repository, create_repo
 from tqdm import tqdm
 print("f")
-
+sleep(1)
 from pydub import AudioSegment
 print("g")
-import shutil
-print("h")
-print("i")
-import transformers
-print("j")
+sleep(1)
 
 from transformers import (
     AutoConfig,
@@ -70,26 +67,42 @@ from transformers import (
     Seq2SeqTrainingArguments,
     is_tensorboard_available,
 )
-print("k")
+print("h")
+sleep(1)
 
 
 from transformers.models.whisper.english_normalizer import BasicTextNormalizer
-print("l")
+print("i")
+sleep(1)
 
 from transformers.file_utils import get_full_repo_name
-print("m")
+print("j")
+sleep(1)
 
 from transformers.utils import check_min_version, send_example_telemetry
-print("n")
+print("k")
+sleep(1)
 
 from transformers.utils.versions import require_version
-print("o")
+print("l")
+sleep(1)
 
 import pandas as pd
-print("p")
+print("m")
+sleep(1)
 
 import evaluate
-print("q")
+print("n")
+sleep(1)
+print("o")
+
+import transformers
+sleep(1)
+print("p")
+
+import shutil
+sleep(1)
+
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.27.0.dev0")
