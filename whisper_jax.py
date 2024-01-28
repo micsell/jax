@@ -71,8 +71,7 @@ import pandas as pd
 print("m")
 sleep(1)
 
-import evaluate
-print("n")
+
 sleep(1)
 print("o")
 
@@ -106,6 +105,8 @@ from transformers import (
     Seq2SeqTrainingArguments,
 )
 print("h")
+import evaluate
+print("n")
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.27.0.dev0")
