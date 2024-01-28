@@ -1116,13 +1116,9 @@ def main(args):
 
 def aaa(args):
     print(jax.devices())
-    try:
-        main(args)
-    except Exception as e:
-        print(e)
-        for frame in traceback.extract_tb(sys.exc_info()[2]):
-            fname,lineno,fn,text = frame
-            print ("Error in %s on line %d" % (fname, lineno))
+    print("Calling main with args")
+    print(args)
+    main(args)
 
 if __name__ == "__main__":
 
