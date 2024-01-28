@@ -56,7 +56,6 @@ from pydub import AudioSegment
 print("g")
 import shutil
 print("h")
-#import evaluate
 print("i")
 import transformers
 print("j")
@@ -71,13 +70,26 @@ from transformers import (
     Seq2SeqTrainingArguments,
     is_tensorboard_available,
 )
+print("k")
+
 
 from transformers.models.whisper.english_normalizer import BasicTextNormalizer
+print("l")
+
 from transformers.file_utils import get_full_repo_name
+print("m")
+
 from transformers.utils import check_min_version, send_example_telemetry
+print("n")
+
 from transformers.utils.versions import require_version
+print("o")
 
 import pandas as pd
+print("p")
+
+import evaluate
+print("q")
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.27.0.dev0")
