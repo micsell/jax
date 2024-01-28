@@ -66,10 +66,10 @@ from transformers import (
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
-check_min_version("4.27.0.dev0")
+# check_min_version("4.27.0.dev0")
 
-require_version("datasets>=1.18.2",
-                "To fix: pip install -r examples/flax/speech-recogintion/requirements.txt")
+# require_version("datasets>=1.18.2",
+#                 "To fix: pip install -r examples/flax/speech-recogintion/requirements.txt")
 
 logger = logging.getLogger(__name__)
 
