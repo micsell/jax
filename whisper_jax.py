@@ -53,11 +53,13 @@ from tqdm import tqdm
 print("f")
 
 from pydub import AudioSegment
-
-import shutil
-import evaluate
-import transformers
 print("g")
+import shutil
+print("h")
+import evaluate
+print("i")
+import transformers
+print("j")
 
 from transformers import (
     AutoConfig,
