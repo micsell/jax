@@ -482,7 +482,7 @@ def main(args):
     #     model_args, data_args, training_args = parser.parse_json_file(
     #         json_file=os.path.abspath(sys.argv[1]))
     # else:
-    model_args, data_args, training_args = parser.parse_dict(args)
+    model_args, data_args, training_args = parser.parse_dict(args, True)
     print(model_args, data_args, training_args)
     # Sending telemetry. Tracking the example usage helps us better allocate resources to maintain them. The
     # information sent is the one passed as arguments along with your JAX/Flax versions.
@@ -494,7 +494,7 @@ def main(args):
     logging.basicConfig(
         format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
         datefmt="%m/%d/%Y %H:%M:%S",
-        handlers=[logging.StreamHandler(sys.stdout)],
+        handlers=[logging.StreamHandler(sys.stderr)],
     )
     # Set the verbosity to info of the Transformers logger.
     # We only want one process per machine to log things on the screen.
