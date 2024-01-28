@@ -483,7 +483,7 @@ def main():
             json_file=os.path.abspath(sys.argv[1]))
     else:
         model_args, data_args, training_args = parser.parse_args_into_dataclasses()
-
+    print("1")
     # Sending telemetry. Tracking the example usage helps us better allocate resources to maintain them. The
     # information sent is the one passed as arguments along with your JAX/Flax versions.
     send_example_telemetry("run_speech_recognition_seq2seq",
@@ -1017,6 +1017,7 @@ def main():
         seed=training_args.seed, buffer_size=data_args.shuffle_buffer_size)
     eval_dataset = vectorized_datasets["eval"]
     train_loader = data_loader(train_dataset, train_batch_size)
+    print("A")
     # train
     for step in tqdm(range(data_args.num_train_steps), desc="Training...", position=1, leave=False):
         try:
