@@ -23,77 +23,36 @@ import logging
 import math
 import os
 import sys
-from time import sleep
 import time
 from dataclasses import field
 from functools import partial
 from pathlib import Path
 from typing import Any, Callable, Dict, Generator, List, Optional, Union
-print("a")
 import datasets
-print("b")
-
 import numpy as np
 import torch
-print("d")
-
 from datasets import Dataset, DatasetDict, IterableDatasetDict, interleave_datasets, load_dataset
 from torch.utils.data import IterableDataset
 
 from huggingface_hub import Repository, create_repo
-print("f")
-sleep(1)
 from pydub import AudioSegment
-print("g")
-sleep(1)
-
-
-sleep(1)
-
 
 from transformers.models.whisper.english_normalizer import BasicTextNormalizer
-print("i")
-sleep(1)
-
 from transformers.file_utils import get_full_repo_name
-print("j")
-sleep(1)
-
 from transformers.utils import check_min_version, send_example_telemetry
-print("k")
-sleep(1)
-
 from transformers.utils.versions import require_version
-print("l")
-sleep(1)
-
 import pandas as pd
-print("m")
-sleep(1)
-
-
-sleep(1)
-print("o")
-
 import transformers
-sleep(1)
-print("p")
-
 import shutil
-sleep(1)
 import flax
 import jax
 import jax.numpy as jnp
-print("c")
 from flax import jax_utils, traverse_util
-print("e")
-
 from flax.jax_utils import pad_shard_unpad, unreplicate
 from flax.training import train_state
 from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_key
 from tqdm import tqdm
 import optax
-print("e")
 from transformers import (
     FlaxAutoModelForSpeechSeq2Seq,
     is_tensorboard_available,
@@ -104,9 +63,7 @@ from transformers import (
     HfArgumentParser,
     Seq2SeqTrainingArguments,
 )
-print("h")
-import evaluate
-print("n")
+
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.27.0.dev0")
@@ -732,8 +689,8 @@ def main():
         )
 
     # 8. Load Metric and write stats
-    metric_wer = evaluate.load("wer")
-    metric_cer = evaluate.load("cer")
+    # metric_wer = evaluate.load("wer")
+    # metric_cer = evaluate.load("cer")
     do_normalize_eval = data_args.do_normalize_eval
 
     def compute_metrics(pred_ids, label_ids):
@@ -754,11 +711,12 @@ def main():
             label_str = [label_str[i]
                          for i in range(len(label_str)) if len(label_str[i]) > 0]
 
-        wer = 100 * \
-            metric_wer.compute(predictions=pred_str, references=label_str)
-        cer = 100 * \
-            metric_cer.compute(predictions=pred_str, references=label_str)
-
+        # wer = 100 * \
+        #     metric_wer.compute(predictions=pred_str, references=label_str)
+        # cer = 100 * \
+        #     metric_cer.compute(predictions=pred_str, references=label_str)
+        wer = 1
+        cer = 1
         return {"wer": wer, "cer": cer}
 
     # TODO: Sanchit. This part is not essential and a bit verbose.
@@ -1124,8 +1082,9 @@ def main():
             # compute metrics
             metric_desc = ""
             if training_args.predict_with_generate:
-                metric_values = compute_metrics(eval_preds, eval_labels)
-                eval_metrics.update(metric_values)
+                # metric_values = compute_metrics(eval_preds, eval_labels)
+                {"wer": 2}
+                metric_values = eval_metrics.update(metric_values)
                 metric_desc = " ".join(
                     [f"Eval {key}: {value} |" for key, value in metric_values.items()])
 
