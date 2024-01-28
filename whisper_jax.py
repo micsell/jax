@@ -52,10 +52,8 @@ from transformers import (
     AutoFeatureExtractor,
     AutoProcessor,
     AutoTokenizer,
-    FlaxAutoModelForSpeechSeq2Seq,
     HfArgumentParser,
     Seq2SeqTrainingArguments,
-    is_tensorboard_available,
 )
 print("h")
 sleep(1)
@@ -105,6 +103,10 @@ from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_ke
 from tqdm import tqdm
 import optax
 print("e")
+from transformers import (
+    FlaxAutoModelForSpeechSeq2Seq,
+    is_tensorboard_available,
+)
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
