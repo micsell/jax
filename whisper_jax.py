@@ -466,7 +466,7 @@ def create_learning_rate_fn(
     return schedule_fn
 
 
-def main():
+def main(args):
     print(jax.devices())
 
     # 1. Parse input arguments
@@ -476,13 +476,13 @@ def main():
     parser = HfArgumentParser(
         (ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
 
-    if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
-        # If we pass only one argument to the script and it's the path to a json file,
-        # let's parse it to get our arguments.
-        model_args, data_args, training_args = parser.parse_json_file(
-            json_file=os.path.abspath(sys.argv[1]))
-    else:
-        model_args, data_args, training_args = parser.parse_args_into_dataclasses()
+    # if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
+    #     # If we pass only one argument to the script and it's the path to a json file,
+    #     # let's parse it to get our arguments.
+    #     model_args, data_args, training_args = parser.parse_json_file(
+    #         json_file=os.path.abspath(sys.argv[1]))
+    # else:
+    model_args, data_args, training_args = parser.parse_args_into_dataclasses(args)
     print("1")
     # Sending telemetry. Tracking the example usage helps us better allocate resources to maintain them. The
     # information sent is the one passed as arguments along with your JAX/Flax versions.
@@ -1114,10 +1114,10 @@ def main():
                         commit_message=f"Saving weights and logs of epoch {epoch}", blocking=False)
 
 
-def aaa():
+def aaa(args):
     print(jax.devices())
     try:
-        main()
+        main(args)
     except Exception as e:
         print(e)
         for frame in traceback.extract_tb(sys.exc_info()[2]):
