@@ -31,26 +31,16 @@ from pathlib import Path
 from typing import Any, Callable, Dict, Generator, List, Optional, Union
 print("a")
 import datasets
-import flax
 print("b")
-import jax
-import jax.numpy as jnp
-print("c")
+
 import numpy as np
-import optax
 import torch
 print("d")
 
 from datasets import Dataset, DatasetDict, IterableDatasetDict, interleave_datasets, load_dataset
 from torch.utils.data import IterableDataset
-from flax import jax_utils, traverse_util
-print("e")
 
-from flax.jax_utils import pad_shard_unpad, unreplicate
-from flax.training import train_state
-from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_key
 from huggingface_hub import Repository, create_repo
-from tqdm import tqdm
 print("f")
 sleep(1)
 from pydub import AudioSegment
@@ -102,6 +92,19 @@ print("p")
 
 import shutil
 sleep(1)
+import flax
+import jax
+import jax.numpy as jnp
+print("c")
+from flax import jax_utils, traverse_util
+print("e")
+
+from flax.jax_utils import pad_shard_unpad, unreplicate
+from flax.training import train_state
+from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_key
+from tqdm import tqdm
+import optax
+print("e")
 
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
