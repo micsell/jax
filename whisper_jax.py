@@ -47,15 +47,7 @@ from pydub import AudioSegment
 print("g")
 sleep(1)
 
-from transformers import (
-    AutoConfig,
-    AutoFeatureExtractor,
-    AutoProcessor,
-    AutoTokenizer,
-    HfArgumentParser,
-    Seq2SeqTrainingArguments,
-)
-print("h")
+
 sleep(1)
 
 
@@ -106,8 +98,14 @@ print("e")
 from transformers import (
     FlaxAutoModelForSpeechSeq2Seq,
     is_tensorboard_available,
+    AutoConfig,
+    AutoFeatureExtractor,
+    AutoProcessor,
+    AutoTokenizer,
+    HfArgumentParser,
+    Seq2SeqTrainingArguments,
 )
-
+print("h")
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 check_min_version("4.27.0.dev0")
