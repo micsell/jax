@@ -56,7 +56,7 @@ from pydub import AudioSegment
 print("g")
 import shutil
 print("h")
-import evaluate
+#import evaluate
 print("i")
 import transformers
 print("j")
