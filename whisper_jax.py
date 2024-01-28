@@ -1112,4 +1112,12 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    import traceback
+    import sys
+
+    try:
+        main()
+    except:
+        for frame in traceback.extract_tb(sys.exc_info()[2]):
+            fname,lineno,fn,text = frame
+            print "Error in %s on line %d" % (fname, lineno)
