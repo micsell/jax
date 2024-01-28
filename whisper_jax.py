@@ -1115,7 +1115,7 @@ def main():
 if __name__ == "__main__":
     import traceback
     import sys
-
+    print(jax.devices())
     try:
         main()
     except:
