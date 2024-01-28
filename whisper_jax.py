@@ -17,7 +17,7 @@
 Fine-tuning the Flax library models for sequence to sequence speech recognition.
 """
 # You can also adapt this script on your own sequence to sequence task. Pointers for this are left as comments.
-
+import traceback
 import itertools
 import logging
 import math
@@ -467,6 +467,8 @@ def create_learning_rate_fn(
 
 
 def main():
+    print(jax.devices())
+
     # 1. Parse input arguments
     # See all possible arguments in src/transformers/training_args.py
     # or by passing the --help flag to this script.
@@ -1112,13 +1114,23 @@ def main():
                         commit_message=f"Saving weights and logs of epoch {epoch}", blocking=False)
 
 
-if __name__ == "__main__":
-    import traceback
-    import sys
+def aaa():
     print(jax.devices())
     try:
         main()
-    except:
+    except Exception as e:
+        print(e)
+        for frame in traceback.extract_tb(sys.exc_info()[2]):
+            fname,lineno,fn,text = frame
+            print ("Error in %s on line %d" % (fname, lineno))
+
+if __name__ == "__main__":
+
+    print(jax.devices())
+    try:
+        main()
+    except Exception as e:
+        print(e)
         for frame in traceback.extract_tb(sys.exc_info()[2]):
             fname,lineno,fn,text = frame
             print ("Error in %s on line %d" % (fname, lineno))
