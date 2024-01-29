@@ -17,50 +17,50 @@
 Fine-tuning the Flax library models for sequence to sequence speech recognition.
 """
 # You can also adapt this script on your own sequence to sequence task. Pointers for this are left as comments.
-# import itertools
-# import os
-# import sys
-# import time
-# from dataclasses import field
-# from functools import partial
-# from pathlib import Path
-# from typing import Any, Callable, Dict, Generator, List, Optional, Union
-# import datasets
-# import numpy as np
-# import torch
-# from datasets import Dataset, DatasetDict, IterableDatasetDict, interleave_datasets, load_dataset
-# from torch.utils.data import IterableDataset
+import itertools
+import os
+import sys
+import time
+from dataclasses import field
+from functools import partial
+from pathlib import Path
+from typing import Any, Callable, Dict, Generator, List, Optional, Union
+import datasets
+import numpy as np
+import torch
+from datasets import Dataset, DatasetDict, IterableDatasetDict, interleave_datasets, load_dataset
+from torch.utils.data import IterableDataset
 
-# from huggingface_hub import Repository, create_repo
-# from pydub import AudioSegment
-# print("36")
-# from transformers.models.whisper.english_normalizer import BasicTextNormalizer
-# from transformers.file_utils import get_full_repo_name
-# from transformers.utils import check_min_version, send_example_telemetry
-# from transformers.utils.versions import require_version
-# import pandas as pd
-# import transformers
-# import shutil
-# import flax
-# import jax
-# import jax.numpy as jnp
-# from flax import jax_utils, traverse_util
-# from flax.jax_utils import pad_shard_unpad, unreplicate
-# from flax.training import train_state
-# from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_key
-# from tqdm import tqdm
-# import optax
-# from transformers import (
-#     FlaxAutoModelForSpeechSeq2Seq,
-#     is_tensorboard_available,
-#     AutoConfig,
-#     AutoFeatureExtractor,
-#     AutoProcessor,
-#     AutoTokenizer,
-#     HfArgumentParser,
-#     Seq2SeqTrainingArguments,
-# )
-# print("63")
+from huggingface_hub import Repository, create_repo
+from pydub import AudioSegment
+print("36")
+from transformers.models.whisper.english_normalizer import BasicTextNormalizer
+from transformers.file_utils import get_full_repo_name
+from transformers.utils import check_min_version, send_example_telemetry
+from transformers.utils.versions import require_version
+import pandas as pd
+import transformers
+import shutil
+import flax
+import jax
+import jax.numpy as jnp
+from flax import jax_utils, traverse_util
+from flax.jax_utils import pad_shard_unpad, unreplicate
+from flax.training import train_state
+from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_key
+from tqdm import tqdm
+import optax
+from transformers import (
+    FlaxAutoModelForSpeechSeq2Seq,
+    is_tensorboard_available,
+    AutoConfig,
+    AutoFeatureExtractor,
+    AutoProcessor,
+    AutoTokenizer,
+    HfArgumentParser,
+    Seq2SeqTrainingArguments,
+)
+print("63")
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 # check_min_version("4.27.0.dev0")
