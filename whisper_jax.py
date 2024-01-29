@@ -17,10 +17,7 @@
 Fine-tuning the Flax library models for sequence to sequence speech recognition.
 """
 # You can also adapt this script on your own sequence to sequence task. Pointers for this are left as comments.
-import traceback
 import itertools
-import logging
-import math
 import os
 import sys
 import time
@@ -36,7 +33,7 @@ from torch.utils.data import IterableDataset
 
 from huggingface_hub import Repository, create_repo
 from pydub import AudioSegment
-
+print("36")
 from transformers.models.whisper.english_normalizer import BasicTextNormalizer
 from transformers.file_utils import get_full_repo_name
 from transformers.utils import check_min_version, send_example_telemetry
@@ -63,7 +60,7 @@ from transformers import (
     HfArgumentParser,
     Seq2SeqTrainingArguments,
 )
-
+print("63")
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 # check_min_version("4.27.0.dev0")
@@ -467,6 +464,7 @@ def create_learning_rate_fn(
 
 
 def main(args):
+    print("467")
     print(jax.devices())
 
     # 1. Parse input arguments
@@ -1112,21 +1110,3 @@ def main(args):
                 if training_args.push_to_hub:
                     repo.push_to_hub(
                         commit_message=f"Saving weights and logs of epoch {epoch}", blocking=False)
-
-
-def aaa(args):
-    print(jax.devices())
-    print("Calling main with args")
-    print(args)
-    main(args)
-
-if __name__ == "__main__":
-
-    print(jax.devices())
-    try:
-        main()
-    except Exception as e:
-        print(e)
-        for frame in traceback.extract_tb(sys.exc_info()[2]):
-            fname,lineno,fn,text = frame
-            print ("Error in %s on line %d" % (fname, lineno))
