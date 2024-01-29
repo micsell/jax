@@ -71,7 +71,7 @@ from transformers import (
 # require_version("datasets>=1.18.2",
 #                 "To fix: pip install -r examples/flax/speech-recogintion/requirements.txt")
 
-logger = logging.getLogger(__name__)
+# logger = logging.getLogger(__name__)
 
 
 @flax.struct.dataclass
@@ -491,15 +491,15 @@ def main(args):
 
     # 2. Setup logging
     # Make one log on every process with the configuration for debugging.
-    logging.basicConfig(
-        format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
-        datefmt="%m/%d/%Y %H:%M:%S",
-        handlers=[logging.StreamHandler(sys.stderr)],
-    )
-    # Set the verbosity to info of the Transformers logger.
-    # We only want one process per machine to log things on the screen.
-    logger.setLevel(logging.INFO if jax.process_index()
-                    == 0 else logging.ERROR)
+    # logging.basicConfig(
+    #     format="%(asctime)s - %(levelname)s - %(name)s - %(message)s",
+    #     datefmt="%m/%d/%Y %H:%M:%S",
+    #     handlers=[logging.StreamHandler(sys.stderr)],
+    # )
+    # # Set the verbosity to info of the Transformers logger.
+    # # We only want one process per machine to log things on the screen.
+    # logger.setLevel(logging.INFO if jax.process_index()
+    #                 == 0 else logging.ERROR)
     if jax.process_index() == 0:
         datasets.utils.logging.set_verbosity_warning()
         transformers.utils.logging.set_verbosity_info()
@@ -507,7 +507,7 @@ def main(args):
         datasets.utils.logging.set_verbosity_error()
         transformers.utils.logging.set_verbosity_error()
 
-    logger.info("Training/evaluation parameters %s", training_args)
+    print("Training/evaluation parameters %s", training_args)
 
     # Check the output dir is valid
     if (
@@ -791,7 +791,7 @@ def main(args):
             if not os.path.exists(file_path):
                 audio_segment.export(file_path, format="mp3")
 
-        logger.info(
+        print(
             f"Created {stats_file_name} and updated the headers of the other stats files")
 
     # 9. Save feature extractor, tokenizer and config
@@ -821,11 +821,11 @@ def main(args):
                 log_dir=Path(os.path.join(training_args.output_dir, "events")))
         except ImportError as ie:
             has_tensorboard = False
-            logger.warning(
+            print(
                 f"Unable to display metrics through TensorBoard because some package are not installed: {ie}"
             )
     else:
-        logger.warning(
+        print(
             "Unable to display metrics through TensorBoard because the package is not installed: "
             "Please run pip install tensorboard to enable."
         )
@@ -985,7 +985,7 @@ def main(args):
             training_args.output_dir, "predictions")
         shutil.rmtree(predictions_folder_name, ignore_errors=True)
         os.makedirs(predictions_folder_name, exist_ok=True)
-        logger.info(f"Created folder {predictions_folder_name}")
+        print(f"Created folder {predictions_folder_name}")
 
     # Create parallel version of the train and eval step
     p_train_step = jax.pmap(
@@ -998,14 +998,14 @@ def main(args):
     # Replicate the train state on each device
     state = state.replicate()
 
-    logger.info("***** Running training *****")
-    logger.info(
+    print("***** Running training *****")
+    print(
         f"  Num examples = {data_args.num_train_steps * train_batch_size}")
-    logger.info(
+    print(
         f"  Instantaneous batch size per device = {training_args.per_device_train_batch_size}")
-    logger.info(
+    print(
         f"  Total train batch size (w. parallel & distributed) = {train_batch_size}")
-    logger.info(f"  Total optimization steps = {data_args.num_train_steps}")
+    print(f"  Total optimization steps = {data_args.num_train_steps}")
 
     train_time = 0
 
@@ -1028,7 +1028,7 @@ def main(args):
             train_dataset.set_epoch(epoch)
             train_loader = data_loader(train_dataset, train_batch_size)
             samples = next(train_loader)
-            logger.info(
+            print(
                 f"Completed epoch ({epoch} | Loss: {train_metric['loss']}, Learning Rate:"
                 f" {train_metric['learning_rate']})"
             )
@@ -1092,7 +1092,7 @@ def main(args):
 
             # Print metrics
             desc = f"Epoch... ({epoch} | Eval Loss: {eval_metrics['loss']} | {metric_desc})"
-            logger.info(desc)
+            print(desc)
 
             # Save metrics
             if has_tensorboard and jax.process_index() == 0:
