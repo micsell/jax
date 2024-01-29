@@ -48,7 +48,7 @@ from flax import jax_utils, traverse_util
 from flax.jax_utils import pad_shard_unpad, unreplicate
 from flax.training import train_state
 from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_key
-from tqdm import tqdm
+from tqdm.notebook import tqdm
 import optax
 from transformers import (
     FlaxAutoModelForSpeechSeq2Seq,
