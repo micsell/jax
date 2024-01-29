@@ -465,7 +465,6 @@ def create_learning_rate_fn(
 
 def main(args):
     print("467")
-    print(jax.devices())
 
     # 1. Parse input arguments
     # See all possible arguments in src/transformers/training_args.py
@@ -473,7 +472,7 @@ def main(args):
     # We now keep distinct sets of args, for a cleaner separation of concerns.
     parser = HfArgumentParser(
         (ModelArguments, DataTrainingArguments, Seq2SeqTrainingArguments))
-
+    print("475")
     # if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
     #     # If we pass only one argument to the script and it's the path to a json file,
     #     # let's parse it to get our arguments.
@@ -481,7 +480,9 @@ def main(args):
     #         json_file=os.path.abspath(sys.argv[1]))
     # else:
     model_args, data_args, training_args = parser.parse_dict(args, True)
+    print("483")
     print(model_args, data_args, training_args)
+    print("485")
     # Sending telemetry. Tracking the example usage helps us better allocate resources to maintain them. The
     # information sent is the one passed as arguments along with your JAX/Flax versions.
     send_example_telemetry("run_speech_recognition_seq2seq",
