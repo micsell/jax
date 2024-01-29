@@ -17,50 +17,50 @@
 Fine-tuning the Flax library models for sequence to sequence speech recognition.
 """
 # You can also adapt this script on your own sequence to sequence task. Pointers for this are left as comments.
-import itertools
-import os
-import sys
-import time
-from dataclasses import field
-from functools import partial
-from pathlib import Path
-from typing import Any, Callable, Dict, Generator, List, Optional, Union
-import datasets
-import numpy as np
-import torch
-from datasets import Dataset, DatasetDict, IterableDatasetDict, interleave_datasets, load_dataset
-from torch.utils.data import IterableDataset
+# import itertools
+# import os
+# import sys
+# import time
+# from dataclasses import field
+# from functools import partial
+# from pathlib import Path
+# from typing import Any, Callable, Dict, Generator, List, Optional, Union
+# import datasets
+# import numpy as np
+# import torch
+# from datasets import Dataset, DatasetDict, IterableDatasetDict, interleave_datasets, load_dataset
+# from torch.utils.data import IterableDataset
 
-from huggingface_hub import Repository, create_repo
-from pydub import AudioSegment
-print("36")
-from transformers.models.whisper.english_normalizer import BasicTextNormalizer
-from transformers.file_utils import get_full_repo_name
-from transformers.utils import check_min_version, send_example_telemetry
-from transformers.utils.versions import require_version
-import pandas as pd
-import transformers
-import shutil
-import flax
-import jax
-import jax.numpy as jnp
-from flax import jax_utils, traverse_util
-from flax.jax_utils import pad_shard_unpad, unreplicate
-from flax.training import train_state
-from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_key
-from tqdm import tqdm
-import optax
-from transformers import (
-    FlaxAutoModelForSpeechSeq2Seq,
-    is_tensorboard_available,
-    AutoConfig,
-    AutoFeatureExtractor,
-    AutoProcessor,
-    AutoTokenizer,
-    HfArgumentParser,
-    Seq2SeqTrainingArguments,
-)
-print("63")
+# from huggingface_hub import Repository, create_repo
+# from pydub import AudioSegment
+# print("36")
+# from transformers.models.whisper.english_normalizer import BasicTextNormalizer
+# from transformers.file_utils import get_full_repo_name
+# from transformers.utils import check_min_version, send_example_telemetry
+# from transformers.utils.versions import require_version
+# import pandas as pd
+# import transformers
+# import shutil
+# import flax
+# import jax
+# import jax.numpy as jnp
+# from flax import jax_utils, traverse_util
+# from flax.jax_utils import pad_shard_unpad, unreplicate
+# from flax.training import train_state
+# from flax.training.common_utils import get_metrics, onehot, shard, shard_prng_key
+# from tqdm import tqdm
+# import optax
+# from transformers import (
+#     FlaxAutoModelForSpeechSeq2Seq,
+#     is_tensorboard_available,
+#     AutoConfig,
+#     AutoFeatureExtractor,
+#     AutoProcessor,
+#     AutoTokenizer,
+#     HfArgumentParser,
+#     Seq2SeqTrainingArguments,
+# )
+# print("63")
 
 # Will error if the minimal version of Transformers is not installed. Remove at your own risks.
 # check_min_version("4.27.0.dev0")
@@ -138,7 +138,7 @@ class DataTrainingArguments:
     Arguments pertaining to what data we are going to input our model for training and eval.
     """
 
-    dataset_name: str = field(
+    dataset_name: Optional[str] = field(
         default=None, metadata={"help": "The name of the dataset to use (via the datasets library)."}
     )
     dataset_config_name: Optional[str] = field(
@@ -382,27 +382,27 @@ class FlaxDataCollatorSpeechSeq2SeqWithPadding:
         return batch
 
 
-def load_maybe_streaming_dataset(dataset_name, dataset_config_name, split="train", streaming=True, **kwargs):
-    """
-    Utility function to load a dataset in streaming mode. For datasets with multiple splits,
-    each split is loaded individually and then splits combined by taking alternating examples from
-    each (interleaving).
-    """
-    if "+" in split:
-        # load multiple splits separated by the `+` symbol with streaming mode
-        dataset_splits = [
-            load_dataset(dataset_name, dataset_config_name,
-                         split=split_name, streaming=streaming, **kwargs)
-            for split_name in split.split("+")
-        ]
-        # interleave multiple splits to form one dataset
-        interleaved_dataset = interleave_datasets(dataset_splits)
-        return interleaved_dataset
-    else:
-        # load a single split *with* streaming mode
-        dataset = load_dataset(
-            dataset_name, dataset_config_name, split=split, streaming=streaming, **kwargs)
-        return dataset
+# def load_maybe_streaming_dataset(dataset_name, dataset_config_name, split="train", streaming=True, **kwargs):
+#     """
+#     Utility function to load a dataset in streaming mode. For datasets with multiple splits,
+#     each split is loaded individually and then splits combined by taking alternating examples from
+#     each (interleaving).
+#     """
+#     if "+" in split:
+#         # load multiple splits separated by the `+` symbol with streaming mode
+#         dataset_splits = [
+#             load_dataset(dataset_name, dataset_config_name,
+#                          split=split_name, streaming=streaming, **kwargs)
+#             for split_name in split.split("+")
+#         ]
+#         # interleave multiple splits to form one dataset
+#         interleaved_dataset = interleave_datasets(dataset_splits)
+#         return interleaved_dataset
+#     else:
+#         # load a single split *with* streaming mode
+#         dataset = load_dataset(
+#             dataset_name, dataset_config_name, split=split, streaming=streaming, **kwargs)
+#         return dataset
 
 
 def collate_batch(samples):
@@ -537,49 +537,28 @@ def main(args):
                           clone_from=repo_name, token=training_args.hub_token)
 
     # 3. Load dataset
-    raw_datasets = IterableDatasetDict() if data_args.streaming else DatasetDict()
+    os.environ["HF_TOKEN"] = "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"
 
-    if training_args.do_train:
-        raw_datasets["train"] = load_maybe_streaming_dataset(
-            data_args.dataset_name,
-            data_args.dataset_config_name,
-            split=data_args.train_split_name,
-            cache_dir=data_args.dataset_cache_dir,
-            streaming=data_args.streaming,
-            use_auth_token=True if model_args.use_auth_token else None,
-        )
+    raw_datasets = IterableDatasetDict()
+    hebrew_train = load_dataset("micsell/hebrew_speech_kan_nikud", 'default', split="train", streaming=True)
+    hebrew_test = load_dataset("micsell/hebrew_speech_kan_nikud", 'default', split="test", streaming=True)
+    english_train = load_dataset("mozilla-foundation/common_voice_16_1", 'en', split="train", streaming=True, token="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")
+    english_train = english_train.cast_column("audio", Audio(sampling_rate=16000))
+    english_test = load_dataset("mozilla-foundation/common_voice_16_1", 'en', split="test", streaming=True, token = "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")
+    english_test = english_test.cast_column("audio", Audio(sampling_rate=16000))
+    train = [hebrew_train, english_train]
+    test = [hebrew_test, english_test]
+    interleaved_train = interleave_datasets(train)
+    interleaved_test = interleave_datasets(test)
 
-    if training_args.do_eval:
-        raw_datasets["eval"] = load_maybe_streaming_dataset(
-            data_args.dataset_name,
-            data_args.dataset_config_name,
-            split=data_args.eval_split_name,
-            cache_dir=data_args.dataset_cache_dir,
-            streaming=data_args.streaming,
-            use_auth_token=True if model_args.use_auth_token else None,
-        )
 
-    if not training_args.do_train and not training_args.do_eval:
-        raise ValueError(
-            "Cannot not train and not do evaluation. At least one of training or evaluation has to be performed."
-        )
+    raw_datasets["train"] = interleaved_train
+    raw_datasets["test"] = interleaved_test
+
 
     raw_datasets_features = list(
         next(iter(raw_datasets.values())).features.keys())
 
-    if data_args.audio_column_name not in raw_datasets_features:
-        raise ValueError(
-            f"--audio_column_name '{data_args.audio_column_name}' not found in dataset '{data_args.dataset_name}'. "
-            "Make sure to set `--audio_column_name` to the correct audio column - one of "
-            f"{', '.join(raw_datasets_features)}."
-        )
-
-    if data_args.text_column_name not in raw_datasets_features:
-        raise ValueError(
-            f"--text_column_name {data_args.text_column_name} not found in dataset '{data_args.dataset_name}'. "
-            "Make sure to set `--text_column_name` to the correct text column - one of "
-            f"{', '.join(raw_datasets_features)}."
-        )
 
     # 5. Load pretrained model, tokenizer, and feature extractor
     config = AutoConfig.from_pretrained(
@@ -664,6 +643,11 @@ def main(args):
         ) if do_lower_case else batch[text_column_name]
         if do_remove_punctuation:
             input_str = normalizer(input_str).strip()
+        if batch.get("language"):
+            language = batch.get("language")
+        else:
+            language = "English"
+        tokenizer.set_prefix_tokens(language=language, task="transcribe")
         batch["labels"] = tokenizer(input_str).input_ids
         return batch
 
